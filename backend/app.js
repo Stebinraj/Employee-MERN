@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const userModel = require('./models/users');
+const path = require('path');
 
 const app = new express();
 app.use(cors());
@@ -14,8 +15,10 @@ app.use(express.urlencoded({ extended: false }));
 
 mongoose.connect('mongodb+srv://Stebin:Stebin00@cluster0.ub6rc3f.mongodb.net/Employee?retryWrites=true&w=majority', { useNewUrlParser: true });
 
+app.use(express.static(path.join(__dirname, '/build')));
+
 // GET all data
-app.get('/users', (req, res) => {
+app.get('/api/users', (req, res) => {
     userModel.find((err, data) => {
         if (err) {
             res.send(err);
@@ -27,7 +30,7 @@ app.get('/users', (req, res) => {
 })
 
 // GET single data
-app.get('/users/:id', (req, res) => {
+app.get('/api/users/:id', (req, res) => {
     let id = req.params.id;
     userModel.findById({ "_id": id }, (err, data) => {
         if (err) {
@@ -40,7 +43,7 @@ app.get('/users/:id', (req, res) => {
 })
 
 // POST data
-app.post('/user', (req, res) => {
+app.post('/api/user', (req, res) => {
     let name = req.body.name;
     let email = req.body.email;
     let password = bcrypt.hashSync(req.body.password, 10);
@@ -58,7 +61,7 @@ app.post('/user', (req, res) => {
 
 
 // PUT data
-app.put('/users', (req, res) => {
+app.put('/api/users', (req, res) => {
     let id = req.body._id;
     let data = req.body;
     userModel.findByIdAndUpdate({ "_id": id }, data, (err, data) => {
@@ -72,7 +75,7 @@ app.put('/users', (req, res) => {
 })
 
 // DELETE data
-app.delete('/users/:id', (req, res) => {
+app.delete('/api/users/:id', (req, res) => {
     const id = req.params.id;
     userModel.findByIdAndDelete({ "_id": id }, (err, data) => {
         if (err) {
@@ -84,7 +87,7 @@ app.delete('/users/:id', (req, res) => {
     })
 });
 
-app.post('/users', (req, res) => {
+app.post('/api/users', (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
 
@@ -109,6 +112,10 @@ app.post('/users', (req, res) => {
             res.send("Invalid Email Id");
         }
     })
+});
+
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, '/build/index.html')); 
 });
 
 app.listen(5000, () => {

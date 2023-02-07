@@ -7,7 +7,7 @@ const UserRead = () => {
 
     useEffect(() => {
         const getData = async () => {
-            let response = await axios.get('http://localhost:5000/users');
+            let response = await axios.get('/api/users');
             if (response) {
                 setApiData(await response.data);
             }

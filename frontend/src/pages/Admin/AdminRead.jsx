@@ -8,7 +8,7 @@ const AdminRead = () => {
 
     useEffect(() => {
         const getData = async () => {
-            let response = await axios.get('http://localhost:5000/users');
+            let response = await axios.get('/api/users');
             return (setApiData(await response.data));
         }
         getData();
@@ -24,14 +24,14 @@ const AdminRead = () => {
     }
 
     const deleteDataFromApi = async (_id) => {
-        let deleteData = await axios.delete(`http://localhost:5000/users/${_id}`);
+        let deleteData = await axios.delete(`/api/users/${_id}`);
         if (deleteData) {
             getDataAfterDeleted();
         }
     }
 
     const getDataAfterDeleted = async () => {
-        let responseAfterDeleted = await axios.get('http://localhost:5000/users')
+        let responseAfterDeleted = await axios.get('/api/users')
         return setApiData(await responseAfterDeleted.data);
     }
 

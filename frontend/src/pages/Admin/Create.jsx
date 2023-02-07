@@ -12,7 +12,7 @@ const Create = () => {
     const navigate = useNavigate();
 
     const sendDataToApi = async () => {
-        let send = await axios.post('http://localhost:5000/user', { name, email, password, role });
+        let send = await axios.post('/api/user', { name, email, password, role });
         if (send) {
             navigate('/admins', { replace: true });
         }

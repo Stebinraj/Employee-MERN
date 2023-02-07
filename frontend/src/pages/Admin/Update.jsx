@@ -14,7 +14,7 @@ const Update = () => {
     const navigate = useNavigate();
 
     const updateDataToApi = async () => {
-        let putData = await axios.put(`http://localhost:5000/users`, { _id, name, email, password, role });
+        let putData = await axios.put(`/api/users`, { _id, name, email, password, role });
         if (putData) {
             navigate('/admins', { replace: true });
         }

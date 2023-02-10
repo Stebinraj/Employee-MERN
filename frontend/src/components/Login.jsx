@@ -11,7 +11,7 @@ const Login = () => {
     const navigate = useNavigate();
 
     const authenticateUser = async () => {
-        let users = await axios.post('http://localhost:5000/users', { email, password });
+        let users = await axios.post('/api/users', { email, password });
         if (users) {
             if (users.data === "Invalid Email Id" | users.data === "Invalid Passsword") {
                 alert(users.data);
